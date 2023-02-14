@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import movieRoutes from './src/routes/movie-router.js';
 import userRoutes from './src/routes/user-router.js';
+import path from 'path';
 import cors from 'cors';
 
 const PORT = 4000;
@@ -16,6 +17,11 @@ app.use(function(req, res, next) {
   " style-src 'self'; font-src 'self'; img-src 'self'; frame-src 'self'");
   res.setHeader('Access-Control-Allow-Origin', 'true');
   next();
+});
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 mongoose
   .connect(URL)
